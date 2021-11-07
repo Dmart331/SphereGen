@@ -28,9 +28,7 @@ public class GetMeshDataFromServer : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Get(url);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success) 
-        {
             Debug.LogError(www.error);
-        }
         else 
         {
             string result = www.downloadHandler.text;
@@ -64,17 +62,11 @@ public class GetMeshDataFromServer : MonoBehaviour
             ResultObject ro = new ResultObject();
             SetUpResultsObject(ro, tokens);
             if (tokens.Length == 11)
-            {
                 CreatePolygon(tokens, ro, Shape.Hexagon);
-            }
             else if (tokens.Length == 10)
-            {
                 CreatePolygon(tokens, ro, Shape.Pentagon);
-            }
             else
-            {
                 Debug.LogError("Shape Not Recognized");
-            }
             ResultObjects.Add(ro);
             api.GetDataIngester().DisplayHexCell(ro.CanonicalCenter, ro.VertexPoints);
         }
@@ -100,9 +92,7 @@ public class GetMeshDataFromServer : MonoBehaviour
         List<Vector3> vector3ListObject = new List<Vector3>();
         string[] vector3List = isHexagon ? HexagonCollection(tokens) : PentagonCollection(tokens);
         foreach (var st in vector3List)
-        {
             AddToVectorList(st, vector3ListObject);
-        }
         ro.VertexPoints = vector3ListObject;
         string[] neighborSet = NeighboringPolygonTokens(tokens, isHexagon);
         List<int> neighboringCells = new List<int>();
